@@ -1,0 +1,1355 @@
+{
+  "$defs": {
+    "Accessor": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/GetValue"
+        },
+        {
+          "$ref": "#/$defs/Evaluate"
+        },
+        {
+          "$ref": "#/$defs/Dtype"
+        },
+        {
+          "$ref": "#/$defs/InferPathFormat"
+        },
+        {
+          "$ref": "#/$defs/GetFileProject"
+        },
+        {
+          "$ref": "#/$defs/GetFolderProject"
+        },
+        {
+          "$ref": "#/$defs/GetDataset"
+        }
+      ],
+      "title": "Accessor"
+    },
+    "Action": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/SetupUserLogging"
+        },
+        {
+          "$ref": "#/$defs/LogMessage"
+        },
+        {
+          "$ref": "#/$defs/SetValue"
+        },
+        {
+          "$ref": "#/$defs/ReadFromFile"
+        },
+        {
+          "$ref": "#/$defs/CreateFolder"
+        },
+        {
+          "$ref": "#/$defs/ReadProject"
+        },
+        {
+          "$ref": "#/$defs/CreateSlide"
+        },
+        {
+          "$ref": "#/$defs/SaveReport"
+        },
+        {
+          "$ref": "#/$defs/SaveImage"
+        },
+        {
+          "$ref": "#/$defs/SaveAnimation"
+        },
+        {
+          "$ref": "#/$defs/PlotSetup"
+        },
+        {
+          "$ref": "#/$defs/SetMeshDeformation"
+        },
+        {
+          "$ref": "#/$defs/SetColorPlotVariable"
+        },
+        {
+          "$ref": "#/$defs/ShowHotSpots"
+        },
+        {
+          "$ref": "#/$defs/SetCameraPerspective"
+        },
+        {
+          "$ref": "#/$defs/SetCameraOrthographic"
+        },
+        {
+          "$ref": "#/$defs/SaveDataFrame"
+        },
+        {
+          "$ref": "#/$defs/ExportReport"
+        }
+      ],
+      "title": "Action"
+    },
+    "ArrayField": {
+      "properties": {
+        "name": {
+          "description": "Field name",
+          "title": "Name",
+          "type": "string"
+        },
+        "dtype": {
+          "description": "Field dtype string",
+          "title": "Dtype",
+          "type": "string"
+        },
+        "shape": {
+          "anyOf": [
+            {
+              "maxItems": 1,
+              "minItems": 1,
+              "prefixItems": [
+                {
+                  "type": "integer"
+                }
+              ],
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Shape of the sub-array",
+          "title": "Shape"
+        }
+      },
+      "required": ["name", "dtype"],
+      "title": "ArrayField",
+      "type": "object"
+    },
+    "Block": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Sequence"
+        },
+        {
+          "$ref": "#/$defs/IfElse"
+        },
+        {
+          "$ref": "#/$defs/ForEach"
+        },
+        {
+          "$ref": "#/$defs/TryExcept"
+        },
+        {
+          "$ref": "#/$defs/Action"
+        },
+        {
+          "$ref": "#/$defs/Accessor"
+        },
+        {
+          "$ref": "#/$defs/Predicate"
+        },
+        {
+          "$ref": "#/$defs/Iterable"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "title": "Block"
+    },
+    "Compare": {
+      "properties": {
+        "set_to": {
+          "default": null,
+          "title": "Set To",
+          "type": "string"
+        },
+        "predicate": {
+          "const": "compare",
+          "title": "Predicate",
+          "type": "string"
+        },
+        "lhs": {
+          "$ref": "#/$defs/Property_Any_",
+          "description": "LHS"
+        },
+        "rhs": {
+          "$ref": "#/$defs/Property_Any_",
+          "description": "RHS"
+        },
+        "op": {
+          "default": "==",
+          "enum": [
+            "lt",
+            "le",
+            "eq",
+            "ne",
+            "ge",
+            "gt",
+            "<",
+            "<=",
+            "==",
+            "!=",
+            ">=",
+            ">"
+          ],
+          "title": "Op",
+          "type": "string"
+        }
+      },
+      "required": ["predicate", "lhs", "rhs"],
+      "title": "Compare",
+      "type": "object"
+    },
+    "Condition": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Predicate"
+        },
+        {
+          "$ref": "#/$defs/Not"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "boolean"
+        }
+      ],
+      "title": "Condition"
+    },
+    "CreateFolder": {
+      "properties": {
+        "action": {
+          "const": "create_folder",
+          "title": "Action",
+          "type": "string"
+        },
+        "path": {
+          "$ref": "#/$defs/Property_str_",
+          "description": "Folder path"
+        }
+      },
+      "required": ["action", "path"],
+      "title": "CreateFolder",
+      "type": "object"
+    },
+    "CreateSlide": {
+      "properties": {
+        "action": {
+          "const": "create_slide",
+          "title": "Action",
+          "type": "string"
+        },
+        "slide": {
+          "$ref": "#/$defs/Property_str_",
+          "description": "Name of the view point"
+        },
+        "deck": {
+          "$ref": "#/$defs/Property_str_",
+          "description": "Name of the view path"
+        },
+        "animate": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Property_bool_"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Enable the animation"
+        }
+      },
+      "required": ["action", "slide", "deck"],
+      "title": "CreateSlide",
+      "type": "object"
+    },
+    "DatasetAttribute": {
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/Property_str_",
+          "description": "Attribute name"
+        },
+        "value": {
+          "$ref": "#/$defs/Property_Any_",
+          "description": "Attribute value"
+        }
+      },
+      "required": ["name", "value"],
+      "title": "DatasetAttribute",
+      "type": "object"
+    },
+    "Dtype": {
+      "properties": {
+        "set_to": {
+          "default": null,
+          "title": "Set To",
+          "type": "string"
+        },
+        "accessor": {
+          "const": "dtype",
+          "title": "Accessor",
+          "type": "string"
+        },
+        "fields": {
+          "$ref": "#/$defs/Property_List_ArrayField__",
+          "description": "Fields of Structured Array"
+        }
+      },
+      "required": ["accessor", "fields"],
+      "title": "Dtype",
+      "type": "object"
+    },
+    "Evaluate": {
+      "properties": {
+        "set_to": {
+          "default": null,
+          "title": "Set To",
+          "type": "string"
+        },
+        "accessor": {
+          "const": "evaluate",
+          "title": "Accessor",
+          "type": "string"
+        },
+        "expression": {
+          "description": "Expression to evaluate",
+          "title": "Expression",
+          "type": "string"
+        }
+      },
+      "required": ["accessor", "expression"],
+      "title": "Evaluate",
+      "type": "object"
+    },
+    "ExportReport": {
+      "properties": {
+        "action": {
+          "const": "export_report",
+          "title": "Action",
+          "type": "string"
+        },
+        "vars": {
+          "description": "Variable to export",
+          "items": {
+            "type": "string"
+          },
+          "title": "Vars",
+          "type": "array"
+        },
+        "template_file": {
+          "$ref": "#/$defs/Property_str_",
+          "description": "template file path"
+        },
+        "output_file": {
+          "$ref": "#/$defs/Property_str_",
+          "description": "output file path"
+        }
+      },
+      "required": ["action", "vars", "template_file", "output_file"],
+      "title": "ExportReport",
+      "type": "object"
+    },
+    "FileReader": {
+      "properties": {
+        "name": {
+          "default": "auto-detect",
+          "description": "Reader name. Supported values: (auto-detect/json_reader/npy_reader/pandas_csv_reader/numpy_csv_reader). Default: auto-detect",
+          "title": "Name",
+          "type": "string"
+        },
+        "options": {
+          "additionalProperties": {
+            "$ref": "#/$defs/Property_Any_"
+          },
+          "default": {},
+          "description": "Reader options",
+          "title": "Options",
+          "type": "object"
+        }
+      },
+      "title": "FileReader",
+      "type": "object"
+    },
+    "ForEach": {
+      "properties": {
+        "for": {
+          "title": "For",
+          "type": "string"
+        },
+        "in": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Iterable"
+            },
+            {
+              "items": {},
+              "type": "array"
+            }
+          ],
+          "title": "In"
+        },
+        "do": {
+          "$ref": "#/$defs/Block"
+        }
+      },
+      "required": ["for", "in", "do"],
+      "title": "ForEach",
+      "type": "object"
+    },
+    "GetDataset": {
+      "properties": {
+        "set_to": {
+          "default": null,
+          "title": "Set To",
+          "type": "string"
+        },
+        "accessor": {
+          "const": "get_dataset",
+          "title": "Accessor",
+          "type": "string"
+        },
+        "attributes": {
+          "description": "Dataset attributes",
+          "items": {
+            "$ref": "#/$defs/DatasetAttribute"
+          },
+          "title": "Attributes",
+          "type": "array"
+        }
+      },
+      "required": ["accessor", "attributes"],
+      "title": "GetDataset",
+      "type": "object"
+    },
+    "GetFileProject": {
+      "properties": {
+        "set_to": {
+          "default": null,
+          "title": "Set To",
+          "type": "string"
+        },
+        "accessor": {
+          "const": "file_project",
+          "title": "Accessor",
+          "type": "string"
+        },
+        "path": {
+          "$ref": "#/$defs/Property_str_",
+          "description": "File path"
+        },
+        "format": {
+          "$ref": "#/$defs/Property_str_",
+          "description": "File format"
+        }
+      },
+      "required": ["accessor", "path", "format"],
+      "title": "GetFileProject",
+      "type": "object"
+    },
+    "GetFolderProject": {
+      "properties": {
+        "set_to": {
+          "default": null,
+          "title": "Set To",
+          "type": "string"
+        },
+        "accessor": {
+          "const": "folder_project",
+          "title": "Accessor",
+          "type": "string"
+        },
+        "path": {
+          "$ref": "#/$defs/Property_str_",
+          "description": "Folder path"
+        },
+        "format": {
+          "$ref": "#/$defs/Property_str_",
+          "description": "Folder format"
+        }
+      },
+      "required": ["accessor", "path", "format"],
+      "title": "GetFolderProject",
+      "type": "object"
+    },
+    "GetValue": {
+      "properties": {
+        "accessor": {
+          "const": "get_var",
+          "title": "Accessor",
+          "type": "string"
+        },
+        "name": {
+          "description": "Variable name",
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": ["accessor", "name"],
+      "title": "GetValue",
+      "type": "object"
+    },
+    "HasString": {
+      "properties": {
+        "set_to": {
+          "default": null,
+          "title": "Set To",
+          "type": "string"
+        },
+        "predicate": {
+          "const": "has_string",
+          "title": "Predicate",
+          "type": "string"
+        },
+        "string": {
+          "$ref": "#/$defs/Property_str_",
+          "description": "String to search for"
+        },
+        "in": {
+          "$ref": "#/$defs/Property_str_",
+          "description": "String in which we need to search"
+        },
+        "ignorecase": {
+          "$ref": "#/$defs/Property_bool_",
+          "description": "case sensitive search?"
+        }
+      },
+      "required": ["predicate", "string", "in", "ignorecase"],
+      "title": "HasString",
+      "type": "object"
+    },
+    "IfElse": {
+      "properties": {
+        "if": {
+          "$ref": "#/$defs/Condition"
+        },
+        "then": {
+          "$ref": "#/$defs/Block"
+        },
+        "else": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Block"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": ["if", "then"],
+      "title": "IfElse",
+      "type": "object"
+    },
+    "InferPathFormat": {
+      "properties": {
+        "set_to": {
+          "default": null,
+          "title": "Set To",
+          "type": "string"
+        },
+        "accessor": {
+          "const": "infer_path_format",
+          "title": "Accessor",
+          "type": "string"
+        },
+        "path": {
+          "$ref": "#/$defs/Property_str_",
+          "description": "File/Folder path"
+        }
+      },
+      "required": ["accessor", "path"],
+      "title": "InferPathFormat",
+      "type": "object"
+    },
+    "Iterable": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Range"
+        },
+        {
+          "$ref": "#/$defs/ListItems"
+        }
+      ],
+      "title": "Iterable"
+    },
+    "ListItems": {
+      "properties": {
+        "set_to": {
+          "default": null,
+          "title": "Set To",
+          "type": "string"
+        },
+        "iterable": {
+          "const": "list_items",
+          "title": "Iterable",
+          "type": "string"
+        },
+        "name": {
+          "description": "Variable name",
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": ["iterable", "name"],
+      "title": "ListItems",
+      "type": "object"
+    },
+    "LogMessage": {
+      "properties": {
+        "action": {
+          "const": "log_message",
+          "title": "Action",
+          "type": "string"
+        },
+        "log_level": {
+          "default": "info",
+          "description": "Supported values: (trace/debug/detail/info/warning/error/fatal). Default: info",
+          "enum": [
+            "trace",
+            "debug",
+            "detail",
+            "info",
+            "warning",
+            "error",
+            "fatal"
+          ],
+          "title": "Log Level",
+          "type": "string"
+        },
+        "message": {
+          "$ref": "#/$defs/Property_str_",
+          "description": "Log message"
+        }
+      },
+      "required": ["action", "message"],
+      "title": "LogMessage",
+      "type": "object"
+    },
+    "Not": {
+      "properties": {
+        "not": {
+          "$ref": "#/$defs/Condition"
+        }
+      },
+      "required": ["not"],
+      "title": "Not",
+      "type": "object"
+    },
+    "PlotSetup": {
+      "properties": {
+        "action": {
+          "const": "set_plot_options",
+          "title": "Action",
+          "type": "string"
+        },
+        "render_mode": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Property_str_"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Geometry render mode"
+        },
+        "fringe": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Property_bool_"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Enable fringe plot"
+        },
+        "deform": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Property_bool_"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Enable deformed mesh display"
+        }
+      },
+      "required": ["action"],
+      "title": "PlotSetup",
+      "type": "object"
+    },
+    "Predicate": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Compare"
+        },
+        {
+          "$ref": "#/$defs/HasString"
+        },
+        {
+          "$ref": "#/$defs/ValidateProject"
+        }
+      ],
+      "title": "Predicate"
+    },
+    "Property_Any_": {
+      "title": "Property[Any]"
+    },
+    "Property_List_ArrayField__": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/VariableReference"
+        },
+        {
+          "items": {
+            "$ref": "#/$defs/ArrayField"
+          },
+          "type": "array"
+        }
+      ],
+      "title": "Property[List[ArrayField]]"
+    },
+    "Property_bool_": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/VariableReference"
+        },
+        {
+          "type": "boolean"
+        }
+      ],
+      "title": "Property[bool]"
+    },
+    "Property_int_": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/VariableReference"
+        },
+        {
+          "type": "integer"
+        }
+      ],
+      "title": "Property[int]"
+    },
+    "Property_str_": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/VariableReference"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "title": "Property[str]"
+    },
+    "Range": {
+      "properties": {
+        "set_to": {
+          "default": null,
+          "title": "Set To",
+          "type": "string"
+        },
+        "iterable": {
+          "const": "range",
+          "title": "Iterable",
+          "type": "string"
+        },
+        "start": {
+          "$ref": "#/$defs/Property_int_",
+          "default": 0,
+          "description": "Start of the range"
+        },
+        "stop": {
+          "$ref": "#/$defs/Property_int_",
+          "description": "End of the range"
+        },
+        "step": {
+          "$ref": "#/$defs/Property_int_",
+          "default": 1,
+          "description": "Step for increment or negative value for decrement"
+        }
+      },
+      "required": ["iterable", "stop"],
+      "title": "Range",
+      "type": "object"
+    },
+    "ReadFromFile": {
+      "properties": {
+        "action": {
+          "const": "read_var",
+          "title": "Action",
+          "type": "string"
+        },
+        "var_name": {
+          "description": "Variable name",
+          "title": "Var Name",
+          "type": "string"
+        },
+        "file_path": {
+          "description": "Variable data file path",
+          "format": "path",
+          "title": "File Path",
+          "type": "string"
+        },
+        "file_format": {
+          "default": "auto-detect",
+          "description": "Supported values: (auto-detect/json/npy/csv). Default: auto-detect",
+          "enum": ["auto-detect", "json", "npy", "csv"],
+          "title": "File Format",
+          "type": "string"
+        },
+        "file_reader": {
+          "$ref": "#/$defs/FileReader",
+          "default": {
+            "name": "auto-detect",
+            "options": {}
+          },
+          "description": "File Reader"
+        }
+      },
+      "required": ["action", "var_name", "file_path"],
+      "title": "ReadFromFile",
+      "type": "object"
+    },
+    "ReadProject": {
+      "properties": {
+        "action": {
+          "const": "read_project",
+          "title": "Action",
+          "type": "string"
+        },
+        "name": {
+          "$ref": "#/$defs/Property_str_",
+          "description": "Project name"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Project description",
+          "title": "Description"
+        },
+        "config": {
+          "$ref": "#/$defs/Property_Any_",
+          "description": "Project configuration"
+        }
+      },
+      "required": ["action", "name", "config"],
+      "title": "ReadProject",
+      "type": "object"
+    },
+    "SaveAnimation": {
+      "properties": {
+        "action": {
+          "const": "save_animation",
+          "title": "Action",
+          "type": "string"
+        },
+        "file_path": {
+          "$ref": "#/$defs/Property_str_",
+          "description": "Animation file path"
+        },
+        "file_type": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Property_str_"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "File type"
+        }
+      },
+      "required": ["action", "file_path"],
+      "title": "SaveAnimation",
+      "type": "object"
+    },
+    "SaveDataFrame": {
+      "properties": {
+        "action": {
+          "const": "save_table",
+          "title": "Action",
+          "type": "string"
+        },
+        "var": {
+          "description": "Dataframe variable",
+          "title": "Var",
+          "type": "string"
+        },
+        "path": {
+          "$ref": "#/$defs/Property_str_",
+          "description": "Output file path"
+        }
+      },
+      "required": ["action", "var", "path"],
+      "title": "SaveDataFrame",
+      "type": "object"
+    },
+    "SaveImage": {
+      "properties": {
+        "action": {
+          "const": "save_image",
+          "title": "Action",
+          "type": "string"
+        },
+        "file_path": {
+          "$ref": "#/$defs/Property_str_",
+          "description": "Image file path"
+        },
+        "file_type": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Property_str_"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "File type"
+        }
+      },
+      "required": ["action", "file_path"],
+      "title": "SaveImage",
+      "type": "object"
+    },
+    "SaveReport": {
+      "properties": {
+        "action": {
+          "const": "save_report",
+          "title": "Action",
+          "type": "string"
+        },
+        "file_path": {
+          "$ref": "#/$defs/Property_str_",
+          "description": "Report file path"
+        },
+        "file_type": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Property_str_"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "File type"
+        }
+      },
+      "required": ["action", "file_path"],
+      "title": "SaveReport",
+      "type": "object"
+    },
+    "Sequence": {
+      "items": {
+        "$ref": "#/$defs/Block"
+      },
+      "title": "Sequence",
+      "type": "array"
+    },
+    "SetCameraOrthographic": {
+      "properties": {
+        "action": {
+          "const": "set_orthographic_camera",
+          "title": "Action",
+          "type": "string"
+        },
+        "pos": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "maxItems": 3,
+              "minItems": 3,
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Camera position in 3D space",
+          "title": "Pos"
+        },
+        "dir": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "maxItems": 3,
+              "minItems": 3,
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Direction the camera is looking at",
+          "title": "Dir"
+        },
+        "up": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "maxItems": 3,
+              "minItems": 3,
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Direction of the sky",
+          "title": "Up"
+        },
+        "xmag": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Floating point horizontal magnification of the view. Must be non-zero.",
+          "title": "Xmag"
+        },
+        "ymag": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Floating point vertical magnification of the view. Must be non-zero.",
+          "title": "Ymag"
+        },
+        "znear": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Floating point distance of the near clipping plane.`znear` must be less than `zfar`",
+          "title": "Znear"
+        },
+        "zfar": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Floating point distance of the far clipping plane.`zfar` must be greater than `znear`",
+          "title": "Zfar"
+        }
+      },
+      "required": ["action"],
+      "title": "SetCameraOrthographic",
+      "type": "object"
+    },
+    "SetCameraPerspective": {
+      "properties": {
+        "action": {
+          "const": "set_perspective_camera",
+          "title": "Action",
+          "type": "string"
+        },
+        "pos": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "maxItems": 3,
+              "minItems": 3,
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Camera position in 3D space",
+          "title": "Pos"
+        },
+        "dir": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "maxItems": 3,
+              "minItems": 3,
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Direction the camera is looking at",
+          "title": "Dir"
+        },
+        "up": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "maxItems": 3,
+              "minItems": 3,
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Direction of the sky",
+          "title": "Up"
+        },
+        "ar": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Floating point aspect ratio of the field of view",
+          "title": "Ar"
+        },
+        "yfov": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Floating point vertical field of view in radians",
+          "title": "Yfov"
+        }
+      },
+      "required": ["action"],
+      "title": "SetCameraPerspective",
+      "type": "object"
+    },
+    "SetColorPlotVariable": {
+      "properties": {
+        "action": {
+          "const": "set_fringe_plot_data",
+          "title": "Action",
+          "type": "string"
+        },
+        "dsvar": {
+          "description": "Dataset variable name",
+          "title": "Dsvar",
+          "type": "string"
+        }
+      },
+      "required": ["action", "dsvar"],
+      "title": "SetColorPlotVariable",
+      "type": "object"
+    },
+    "SetMeshDeformation": {
+      "properties": {
+        "action": {
+          "const": "set_deform_data",
+          "title": "Action",
+          "type": "string"
+        },
+        "dsvar": {
+          "description": "Dataset variable name",
+          "title": "Dsvar",
+          "type": "string"
+        }
+      },
+      "required": ["action", "dsvar"],
+      "title": "SetMeshDeformation",
+      "type": "object"
+    },
+    "SetValue": {
+      "properties": {
+        "action": {
+          "const": "set_var",
+          "title": "Action",
+          "type": "string"
+        },
+        "name": {
+          "description": "Variable name",
+          "title": "Name",
+          "type": "string"
+        },
+        "value": {
+          "description": "Variable value",
+          "title": "Value"
+        }
+      },
+      "required": ["action", "name", "value"],
+      "title": "SetValue",
+      "type": "object"
+    },
+    "SetupUserLogging": {
+      "properties": {
+        "action": {
+          "const": "setup_logging",
+          "title": "Action",
+          "type": "string"
+        },
+        "file_path": {
+          "$ref": "#/$defs/Property_str_",
+          "description": "Log file path"
+        },
+        "log_level": {
+          "default": "info",
+          "description": "Supported values: (trace/debug/detail/info/warning/error/fatal). Default: info",
+          "enum": [
+            "trace",
+            "debug",
+            "detail",
+            "info",
+            "warning",
+            "error",
+            "fatal"
+          ],
+          "title": "Log Level",
+          "type": "string"
+        },
+        "message_format": {
+          "default": "%(message)s",
+          "description": "log message format",
+          "title": "Message Format",
+          "type": "string"
+        }
+      },
+      "required": ["action", "file_path"],
+      "title": "SetupUserLogging",
+      "type": "object"
+    },
+    "ShowHotSpots": {
+      "properties": {
+        "action": {
+          "const": "show_hotspots",
+          "title": "Action",
+          "type": "string"
+        },
+        "num_top": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Property_int_"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Number of top hotspots"
+        },
+        "num_bottom": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Property_int_"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Number of bottom hotspots"
+        }
+      },
+      "required": ["action"],
+      "title": "ShowHotSpots",
+      "type": "object"
+    },
+    "TryExcept": {
+      "properties": {
+        "try": {
+          "$ref": "#/$defs/Block"
+        },
+        "except": {
+          "additionalProperties": {
+            "$ref": "#/$defs/Block"
+          },
+          "default": {},
+          "title": "Except",
+          "type": "object"
+        }
+      },
+      "required": ["try"],
+      "title": "TryExcept",
+      "type": "object"
+    },
+    "ValidateProject": {
+      "properties": {
+        "set_to": {
+          "default": null,
+          "title": "Set To",
+          "type": "string"
+        },
+        "predicate": {
+          "const": "is_project_valid",
+          "title": "Predicate",
+          "type": "string"
+        }
+      },
+      "required": ["predicate"],
+      "title": "ValidateProject",
+      "type": "object"
+    },
+    "VariableReference": {
+      "description": "Represents a variable reference in YAML.",
+      "properties": {
+        "var_name": {
+          "description": "The name of the referenced variable.",
+          "title": "Var Name",
+          "type": "string"
+        }
+      },
+      "required": ["var_name"],
+      "title": "VariableReference",
+      "type": "object"
+    }
+  },
+  "$ref": "#/$defs/Block"
+}

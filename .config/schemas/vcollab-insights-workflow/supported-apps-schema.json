@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vcollab.com/schemas/vcollab-insights-workflow/script-metadata.schema.json",
+  "title": "Schema for VCollab Workflow Templates Framework Script Supported Applications",
+  "description": "Schema for VCollab Workflow Templates Framework Script Supported Applications",
+  "type": "array",
+  "minItems": 1,
+  "items": {
+    "$ref": "#/$defs/ExecutionRequirements"
+  },
+  "$defs": {
+    "ExecutionRequirements": {
+      "description": "Represents the execution requirements for a workflow script.\n\nAttributes:\n    application (Optional[NameAndMinVer]): Supported application information.\n    environment (Optional[NameAndMinVer]): Supported execution environment information.\n    interpreter (NameAndMinVer): Supported interpreter script information.",
+      "properties": {
+        "application": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/NameAndMinVer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": {
+            "name": null,
+            "minver": null
+          },
+          "description": "Supported application information."
+        },
+        "environment": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/NameAndMinVer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": {
+            "name": "python",
+            "minver": "3.8.0"
+          },
+          "description": "Supported execution environment information."
+        },
+        "interpreter": {
+          "$ref": "#/$defs/NameAndMinVer",
+          "description": "Supported interpreter script information."
+        }
+      },
+      "required": ["interpreter"],
+      "title": "ExecutionRequirements",
+      "type": "object"
+    },
+    "NameAndMinVer": {
+      "title": "NameAndMinVer",
+      "description": "Represents a name and minimum supported version pair.\n\nAttributes:\n    name (Optional[str]): The name of the application, environment, or interpreter.\n    minver (Optional[str]): The minimum supported version of the application, environment, or interpreter.\n\nMethods:\n    supported_with(app: NameAndVersion) -> bool:\n        Checks if the given application/script is supported based on name and version.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Name of the application/script.",
+          "title": "Name"
+        },
+        "minver": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Minimum supported version of the application/script.",
+          "title": "Minver"
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}
