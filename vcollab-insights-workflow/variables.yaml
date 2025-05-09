@@ -1,7 +1,7 @@
 - name: simulation_file_path
   type: input_file_path
   default: file.cax
-- name: project_name
+- name: project_nameeee
   type: string
   default: test_project
 
