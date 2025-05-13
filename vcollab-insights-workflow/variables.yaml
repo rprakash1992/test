@@ -3,5 +3,9 @@
   default: file.caxxxxxxx
 - name: project_name
   type: string
-  default: test_projectttttt
+  default: test_project
+- name: test
+  type: string
+  default: test
+
 
