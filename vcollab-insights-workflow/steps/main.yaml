@@ -1,0 +1,17 @@
+- accessor: infer_path_format
+  path: !var simulation_file_path
+  set_to: simulation_file_format
+- accessor: file_project
+  path: !var simulation_file_path
+  format: !var simulation_file_format
+  set_to: project_config
+- action: read_project
+  name: !var project_name
+  config: !var project_config
+- if:
+    predicate: is_project_valid
+  then: !include create-all-slides.steps.yaml
+  else:
+    action: log_message
+    message: "Error: Invalid project \"{{project_name}}\""
+    log_level: error

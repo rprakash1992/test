@@ -1,0 +1,12 @@
+- accessor: get_dataset
+  attributes:
+    - name: type
+      value: !var result_type
+    - name: mode
+      value: !var mode_number
+  set_to: fringe_dataset
+- action: set_fringe_plot_data
+  dsvar: fringe_dataset
+- action: create_slide
+  slide: "{{result_type}}_mode_{{mode_number}}"
+  deck: "Results"

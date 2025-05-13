@@ -1,0 +1,6 @@
+title: Test Workflow 1
+description: Cax file first steps
+image_file: placeholder.png
+apps: !include supported-apps.yaml
+variables: !include variables.yaml
+steps: !include steps/main.yaml

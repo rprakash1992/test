@@ -1,0 +1,13 @@
+#- !inc detect-prominent-modes.steps.yaml
+#- for: mode_number
+#  in: !var prominent_modes
+#  do: !inc create-result-slides.steps.yaml
+- for: mode_number
+  in:
+    iterable: range
+    start: 1
+    stop: 5
+  do: !include create-result-slides.steps.yaml
+- action: save_report
+  file_path: file_out.wcax
+  file_type: html

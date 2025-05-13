@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vcollab.com/schemas/vcollab-insights-workflow/script-metadata.schema.json",
+  "title": "Schema for VCollab Workflow Templates Framework Script Variables",
+  "description": "Schema for VCollab Workflow Templates Framework Script Variables",
+  "type": "array",
+  "items": {
+    "$ref": "#/$defs/Variable"
+  },
+  "$defs": {
+    "Variable": {
+      "description": "A user variable with a name, type, and default value.",
+      "properties": {
+        "name": {
+          "description": "The name of the variable.",
+          "title": "Name",
+          "type": "string"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "A brief description of the variable.",
+          "title": "Description"
+        },
+        "type": {
+          "default": "auto-detect",
+          "description": "The type of the variable. Supported values: auto-detect/int/float/bool/string/input_file_path/output_file_path/input_folder_path/output_folder_path/object/numpy_array. Default: auto-detect.",
+          "enum": [
+            "auto-detect",
+            "int",
+            "float",
+            "bool",
+            "string",
+            "input_file_path",
+            "output_file_path",
+            "input_folder_path",
+            "output_folder_path",
+            "object",
+            "numpy_array"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {},
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The current value of the variable. If not provided, the default value will be used.",
+          "title": "Value"
+        },
+        "default": {
+          "description": "The default value of the variable.",
+          "title": "Default"
+        }
+      },
+      "required": ["name", "default"],
+      "title": "Variable",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false
+}

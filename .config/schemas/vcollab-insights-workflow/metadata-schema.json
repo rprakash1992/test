@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vcollab.com/schemas/vcollab-insights-workflow/script-metadata.schema.json",
+  "title": "Schema for VCollab Workflow Templates Framework Script Metadata",
+  "description": "Schema for VCollab Workflow Templates Framework Script Metadata",
+  "type": "object",
+  "required": ["title", "apps", "steps"],
+  "properties": {
+    "title": {
+      "title": "Script Title",
+      "description": "The title of the workflow script.",
+      "type": "string"
+    },
+    "description": {
+      "title": "Script Description",
+      "description": "A short description of the workflow script.",
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "image_file": {
+      "title": "Script Image",
+      "description": "Filename or URL of an image representation of the script",
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "apps": {
+      "title": "Supported Applications",
+      "description": "Supported applications and interpreters to be used with this workflow",
+      "type": "string"
+    },
+    "variables": {
+      "title": "Script Variables",
+      "description": "Variables that need to be defined for the execution of the script",
+      "type": "string"
+    },
+    "steps": {
+      "title": "Workflow Steps",
+      "description": "Steps to be executed in the workflow",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

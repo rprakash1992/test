@@ -1,0 +1,11 @@
+{
+    "yaml.customTags": [
+        "!file scalar", "!include scalar", "!inc scalar", "!incl scalar", "!var scalar"
+    ],
+    "yaml.schemas": {
+       ".config/schemas/vcollab-insights-workflow/metadata-schema.json": ["vcollab-insights-workflow/metadata.yaml"],
+       ".config/schemas/vcollab-insights-workflow/supported-apps-schema.json": ["vcollab-insights-workflow/supported-apps.yaml"],
+       ".config/schemas/vcollab-insights-workflow/variables-schema.json": ["vcollab-insights-workflow/variables.yaml"],
+       ".config/schemas/vcollab-insights-workflow/steps-schema.json": ["vcollab-insights-workflow/steps/**/*.yaml"]
+    }
+}

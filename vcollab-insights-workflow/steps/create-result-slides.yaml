@@ -1,0 +1,5 @@
+for: result_type
+in:
+  - Displacement
+  - Strain Energy
+do: !include create-result-mode-slide.steps.yaml

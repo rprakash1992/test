@@ -1,0 +1,7 @@
+- name: simulation_file_path
+  type: input_file_path
+  default: file.caxxxxxxx
+- name: project_name
+  type: string
+  default: test_project
+
